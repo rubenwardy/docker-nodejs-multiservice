@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+    bridge:
+        build: .
+        ports:
+            - 4002:4002
+        environment:
+            - TYPE=bridge
+            - PORT=80
+    mock:
+        build: .
+        depends_on:
+            - bridge
+        environment:
+            - TYPE=mock
+            - ZONE_ID=1
+            - BRIDGE_URL=http://bridge
+    user:
+        build: .
+        depends_on:
+            - bridge
+        ports:
+            - 4001:4001
+        environment:
+            - TYPE=user
+            - PORT=80
+            - BRIDGE_URL=http://bridge
+    zone1:
+        build: .
+        depends_on:
+            - bridge
+            - user
+        ports:
+            - 4003:4003
+        environment:
+            - TYPE=zone
+            - ZONE_ID=1
+            - PORT=80
+            - BRIDGE_URL=http://bridge
+            - USER_URL=http://user

@@ -1,0 +1,22 @@
+apps:
+  - name: Martini Bridge
+    script: apis/bridge/index.js
+    env:
+      PORT: 4002
+  - name: Martini Alpaca
+    script: apis/mock/index.js
+    env:
+      ZONE_ID: 1
+      BRIDGE_URL: http://localhost:4002
+  - name: Martini Alpaca Zone Ctrl
+    script: apis/zone/index.js
+    env:
+      ZONE_ID: 1
+      BRIDGE_URL: http://localhost:4002
+      PORT: 4003
+  - name: Martini Rest API
+    script: apis/user/index.js
+    env:
+      MOCK: 1
+      BRIDGE_URL: http://localhost:4002
+      PORT: 4001
